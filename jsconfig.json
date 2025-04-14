@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",          // Esto hace que la raíz sea el punto de partida
+    "paths": {
+      "@/*": ["./*"]         // Esto permite usar "@/algo" como ruta absoluta desde la raíz
+    }
+  }
+}
