@@ -9,7 +9,7 @@ export default function PostCard({ post }) {
       <p className="text-sm text-gray-500">
         Por {post.author} - {post.date}
       </p>
-      {/* Link que redirige a la página del post de anders*/}
+      {/* Link que redirige a la página del post de anders flores*/}
       <Link href={`/post/${post.id}`} className="text-blue-500 underline">
         Leer más
       </Link>
