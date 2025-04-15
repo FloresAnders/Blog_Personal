@@ -26,7 +26,7 @@ export default function Navbar({ onSearch }) {
             onChange={handleChange}
             className="p-1 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <Link href="/new" className="text-gray-300 hover:text-white">
+          <Link href="/new" className="text-gray-300 hover:text-white"> //TODO mas bonito
             Nuevo Post
           </Link>
         </div>
