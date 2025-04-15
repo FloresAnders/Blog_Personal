@@ -6,10 +6,9 @@ export default async function PostPage({ params }) {
   console.log('[📦] Cargando página individual del post...');
   console.log('[🔍] params:', params);
 
-  // Verificamos si params existe y contiene id
   if (!params || !params.id) {
     console.error('[❌] No se recibió el parámetro id en params.');
-    return <div className="p-8 text-xl text-red-600">Error: Parámetro no encontrado</div>;
+    return <div className="p-8 text-xl text-red-400">Error: Parámetro no encontrado</div>;
   }
 
   const postId = parseInt(params.id, 10);
@@ -22,28 +21,34 @@ export default async function PostPage({ params }) {
     });
   } catch (err) {
     console.error('[❌] Error al consultar la base de datos:', err);
-    return <div className="p-8 text-xl text-red-600">Error al buscar el post</div>;
+    return <div className="p-8 text-xl text-red-400">Error al buscar el post</div>;
   }
 
   if (!post) {
     console.warn('[⚠️] Post no encontrado con ID:', postId);
-    return <div className="p-8 text-xl">Post no encontrado 😢</div>;
+    return <div className="p-8 text-xl text-gray-400">Post no encontrado 😢</div>;
   }
 
   console.log('[✅] Post encontrado:', post);
 
   return (
-    <main className="p-8">
-      <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
-      <p className="text-sm text-gray-500 mb-4">
-        Por {post.author} - {post.date}
-      </p>
-      <p>{post.content}</p>
-      <div className="mt-4 flex items-center gap-4">
-        <Link href="/" className="text-blue-500 hover:text-blue-700">
-          Volver atrás
-        </Link>
-        <DeleteButton postId={postId} />
+    <main className="p-8 bg-gray-900 text-gray-100 min-h-screen">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold mb-4 text-white">{post.title}</h1>
+        <div className="flex items-center text-sm text-gray-400 mb-6">
+          <span>Por {post.author}</span>
+          <span className="mx-2">•</span>
+          <span>{post.date}</span>
+        </div>
+        <div className="prose prose-invert text-gray-300 mb-8">
+          <p>{post.content}</p>
+        </div>
+        <div className="flex items-center gap-4">
+          <Link href="/" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">
+            Volver atrás
+          </Link>
+          <DeleteButton postId={postId} />
+        </div>
       </div>
     </main>
   );
