@@ -3,15 +3,34 @@ import Link from 'next/link';
 import DeleteButton from '@/components/DeleteButton';
 
 export default async function PostPage({ params }) {
-  const postId = parseInt(params.id, 10);
+  console.log('[📦] Cargando página individual del post...');
+  console.log('[🔍] params:', params);
 
-  const post = await prisma.post.findUnique({
-    where: { id: postId },
-  });
+  // Verificamos si params existe y contiene id
+  if (!params || !params.id) {
+    console.error('[❌] No se recibió el parámetro id en params.');
+    return <div className="p-8 text-xl text-red-600">Error: Parámetro no encontrado</div>;
+  }
+
+  const postId = parseInt(params.id, 10);
+  console.log('[🧾] ID del post:', postId);
+
+  let post;
+  try {
+    post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+  } catch (err) {
+    console.error('[❌] Error al consultar la base de datos:', err);
+    return <div className="p-8 text-xl text-red-600">Error al buscar el post</div>;
+  }
 
   if (!post) {
+    console.warn('[⚠️] Post no encontrado con ID:', postId);
     return <div className="p-8 text-xl">Post no encontrado 😢</div>;
   }
+
+  console.log('[✅] Post encontrado:', post);
 
   return (
     <main className="p-8">
@@ -20,11 +39,10 @@ export default async function PostPage({ params }) {
         Por {post.author} - {post.date}
       </p>
       <p>{post.content}</p>
-      <div className="mt-4 flex items-center">
+      <div className="mt-4 flex items-center gap-4">
         <Link href="/" className="text-blue-500 hover:text-blue-700">
           Volver atrás
         </Link>
-        {/* Aquí se agrega el botón de eliminar */}
         <DeleteButton postId={postId} />
       </div>
     </main>
